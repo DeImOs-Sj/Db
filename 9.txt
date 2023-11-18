@@ -1,0 +1,71 @@
+Step 1: Create a MongoDB Collection
+
+use mystoredb;
+
+db.createCollection("orders");
+
+
+Step 2: Insert Sample Documents
+
+// Insert sample orders
+
+db.orders.insertMany([
+    {
+        order_id: 1,
+        cust_id: 101,
+        cust_name: "John Doe",
+        phone_no: ["123-456-7890", "987-654-3210"],
+        email_id: "john@example.com",
+        item_name: "Laptop",
+        DtOfOrder: ISODate("2023-01-15T10:30:00Z"),
+        quantity: 2,
+        amount: 1200.00,
+        status: "P"
+    },
+    {
+        order_id: 2,
+        cust_id: 102,
+        cust_name: "Jane Smith",
+        phone_no: ["111-222-3333"],
+        email_id: "jane@example.com",
+        item_name: "Smartphone",
+        DtOfOrder: ISODate("2023-02-20T14:45:00Z"),
+        quantity: 1,
+        amount: 500.00,
+        status: "D"
+    },
+]);
+
+Step 3: Aggregation Example
+
+
+// Aggregation to calculate total amount per customer
+db.orders.aggregate([
+    {
+        $group: {
+            _id: "$cust_id",
+            totalAmount: { $sum: "$amount" }
+        }
+    },
+    {
+        $lookup: {
+            from: "orders",
+            localField: "_id",
+            foreignField: "cust_id",
+            as: "customerOrders"
+        }
+    },
+    {
+        $project: {
+            _id: 0,
+            cust_id: "$_id",
+            totalAmount: 1,
+            numOrders: { $size: "$customerOrders" }
+        }
+    }
+]);
+
+Step 4: Indexing
+
+// Create an index on the cust_id field
+db.orders.createIndex({ cust_id: 1 });
