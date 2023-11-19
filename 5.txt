@@ -1,0 +1,57 @@
+USE 31380_db;
+
+
+CREATE TABLE stud_marks(
+	name VARCHAR(50),
+	total_marks INT
+);
+
+CREATE TABLE result (
+	roll INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+	class VARCHAR(25) DEFAULT NULL,
+	name VARCHAR(50)
+);
+
+INSERT INTO stud_marks VALUES 
+('Shantanu',900),
+('riya',1000),
+('athrava',1490),
+('durvesh',799);
+
+DELIMITER $$
+
+-- Function to classify marks
+CREATE FUNCTION IF NOT EXISTS classify (marks INT) RETURNS VARCHAR(50)
+DETERMINISTIC
+BEGIN
+	IF marks BETWEEN 990 AND 1500 THEN
+		RETURN 'Distinction';
+	ELSEIF marks BETWEEN 900 AND 989 THEN
+		RETURN 'First Class';
+	ELSEIF marks BETWEEN 825 AND 899 THEN
+		RETURN 'Higher Second Class';
+	ELSE
+		RETURN 'Pass';
+	END IF;
+END $$
+
+-- Procedure to insert into result table
+CREATE PROCEDURE proc_grade (IN stud_name VARCHAR(50), IN roll INT)
+BEGIN
+	DECLARE clss VARCHAR(25);
+	DECLARE studmarks INT;
+	SELECT total_marks INTO studmarks FROM stud_marks WHERE name = stud_name;
+	SET clss := classify(studmarks);
+	INSERT INTO result VALUES (roll, clss, stud_name);
+END $$
+DELIMITER ;
+
+CALL proc_grade('Shantanu',900);
+CALL proc_grade('riya',1000);
+CALL proc_grade('durvesh',1490);
+
+
+SELECT * FROM result;
+
+
+
