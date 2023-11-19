@@ -30,20 +30,17 @@ VALUES
     (101, 1, '2023-01-15', 1200.00),
     (102, 2, '2023-02-20', 900.00);
 
-Step 5: SQL Queries
-1. Inner Join:
+
 
 SELECT customers.customer_id, customers.first_name, orders.order_id
 FROM customers
 INNER JOIN orders ON customers.customer_id = orders.customer_id;
 
-2. Left Join:
 
 SELECT customers.customer_id, customers.first_name, orders.order_id
 FROM customers
 LEFT JOIN orders ON customers.customer_id = orders.customer_id;
 
-3. Subquery in SELECT:
 
 SELECT customer_id, first_name,
        (SELECT COUNT(*) FROM orders WHERE orders.customer_id = customers.customer_id) AS order_count
@@ -51,7 +48,6 @@ FROM customers;
 
 
 
-5. View:
 
 CREATE VIEW customer_order_totals AS
 SELECT c.customer_id, c.first_name, SUM(o.total_amount) AS total_order_amount
@@ -59,7 +55,6 @@ FROM customers c
 JOIN orders o ON c.customer_id = o.customer_id
 GROUP BY c.customer_id, c.first_name;
 
-6. Join with Subquery:
 
 SELECT c.customer_id, c.first_name, o.order_id, o.total_amount
 FROM customers c

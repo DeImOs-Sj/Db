@@ -3,7 +3,6 @@ CREATE TABLE Department (
     DepartmentName VARCHAR(50)
 );
 
--- Insert dummy values into the Department table
 INSERT INTO Department (DepartmentID, DepartmentName)
 VALUES
 (1, 'HR'),
@@ -11,7 +10,6 @@ VALUES
 (3, 'IT');
 
 
--- Create the Employee table with the DepartmentID column
 CREATE TABLE Employee (
     EmployeeID INT PRIMARY KEY,
     FirstName VARCHAR(50),
@@ -21,31 +19,26 @@ CREATE TABLE Employee (
     DepartmentID INT -- This is the new column
 );
 
--- Insert dummy values into the Employee table
 INSERT INTO Employee VALUES
 (1, 'John', 'Doe', 50000.00, '2023-01-01', 1),
 (2, 'Jane', 'Smith', 60000.00, '2023-02-15', 2),
 (3, 'Bob', 'Johnson', 75000.00, '2023-03-20', 1);
 
 
--- Create a View
 CREATE VIEW HighSalaryEmployees AS
 SELECT * FROM Employee WHERE Salary > 60000.00;
 
 SELECT * FROM HighSalaryEmployees;
 
 
--- Create an Index
 CREATE INDEX idx_LastName ON Employee(LastName);
 
 
--- Add a Foreign Key Constraint
 ALTER TABLE Employee
 ADD CONSTRAINT fk_Department
 FOREIGN KEY (DepartmentID)
 REFERENCES Department(DepartmentID);
 
--- Add a Check Constraint
 ALTER TABLE Employee
 ADD CONSTRAINT chk_Salary
 CHECK (Salary >= 0);

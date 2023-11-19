@@ -1,11 +1,9 @@
-Step 1: Create a MongoDB Collection
 
 use myblogdb;
 
 
 db.createCollection("articles");
 
-Step 2: Insert Documents (Create - CRUD)
 
 
 db.articles.insertOne({
@@ -31,7 +29,6 @@ db.articles.insertOne({
     ]
 });
 
-Step 3: Display Documents (Read - CRUD)
 
 
 
@@ -40,13 +37,11 @@ db.articles.find();
 
 db.articles.find({ category: "Database" });
 
-Step 4: Update Documents (Update - CRUD)
 
 db.articles.updateOne(
     { title: "Introduction to MongoDB" },
     { $set: { content: "MongoDB is a powerful NoSQL database..." } }
 );
 
-Step 5: Delete Documents (Delete - CRUD)
 
 db.articles.deleteOne({ title: "Getting Started with Node.js" });

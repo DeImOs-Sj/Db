@@ -20,7 +20,6 @@ INSERT INTO stud_marks VALUES
 
 DELIMITER $$
 
--- Function to classify marks
 CREATE FUNCTION IF NOT EXISTS classify (marks INT) RETURNS VARCHAR(50)
 DETERMINISTIC
 BEGIN
@@ -35,7 +34,6 @@ BEGIN
 	END IF;
 END $$
 
--- Procedure to insert into result table
 CREATE PROCEDURE proc_grade (IN stud_name VARCHAR(50), IN roll INT)
 BEGIN
 	DECLARE clss VARCHAR(25);
