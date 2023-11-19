@@ -29,19 +29,21 @@ db.orders.insertMany([
 
 
 
-db.orders.aggregate([
+db.orders.aggregate(
   {
     $match: {
       status: "P"
     }
-  },
+  }
+)
+db.orders.aggregate(
   {
     $group: {
       _id: "$cust_id",
       totalAmount: { $sum: "$amount" }
     }
   }
-]).pretty();
+).pretty();
 
 
 
