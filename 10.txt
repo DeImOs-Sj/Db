@@ -1,12 +1,9 @@
-Step 1: Create a MongoDB Collection
 
 use mystoredb;
 
 db.createCollection("orders");
 
-Step 2: Insert Sample Documents
 
-// Insert sample orders
 db.orders.insertMany([
     {
         customer_id: 101,
@@ -28,7 +25,6 @@ db.orders.insertMany([
 ]);
 
 
-Step 3: MapReduce Operations
 
 var mapFunction = function() {
     emit(this.status, 1);

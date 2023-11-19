@@ -1,0 +1,28 @@
+create database lib;
+use lib;
+create table library(srno int(5),name varchar(40),author varchar(20),allowed_days int(5));
+create table library_audit(srno int(5),old_all_days int(5),new_all_days int(5));
+
+insert into library values    (1,'Database Systems','Abc',10),
+                              (2,'System Programming','xyz',20),
+                              (3,'Computer Network & Internet','qwe',18),
+                              (4,'Project Management','rty',24),
+                              (5,'Python for Data Analysis','asd',12);
+
+select * from library;
+
+
+delimiter //
+create trigger tr1
+before update on library
+for each row
+begin
+insert into library_audit values(new.srno,old.allowed_days,new.allowed_days);
+end //
+
+
+update library set allowed_days=15 where srno=1; //
+update library set allowed_days=13 where srno=3; // 
+
+select * from library; //
+select * from library_audit; //
